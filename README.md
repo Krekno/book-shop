@@ -1,1 +1,1 @@
-# e-commere website react
+# e-commerce website
