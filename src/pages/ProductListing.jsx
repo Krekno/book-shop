@@ -1,12 +1,13 @@
-import React from "react";
-import { useContext } from "react";
-import { useState } from "react";
-import { CartContext } from "../CartContext";
-import products from "../data/products";
+import React from "react"
+import { useContext } from "react"
+import { useState } from "react"
+import { CartContext } from "../CartContext"
+import products from "../data/products"
+import { Link } from "react-router-dom"
 
 const ProductListing = () => {
-	const [filters, setFilters] = useState({});
-	const { addToCart } = useContext(CartContext);
+	const [filters, setFilters] = useState({})
+	const { addToCart } = useContext(CartContext)
 
 	// Filter implementation here...
 
@@ -15,18 +16,21 @@ const ProductListing = () => {
 			<aside className="filters">{/* Filter options go here */}</aside>
 			<main className="product-grid">
 				{products.map((product) => (
-					<div key={product.id} className="product-item">
+					<Link
+						to={`/products/${product.id}`}
+						key={product.id}
+						className="product-item">
 						<img src={product.image} alt={product.name} />
 						<h3>{product.name}</h3>
 						<p>${product.price}</p>
 						<button onClick={() => addToCart(product)}>
 							Add to Cart
 						</button>
-					</div>
+					</Link>
 				))}
 			</main>
 		</div>
-	);
-};
+	)
+}
 
-export default ProductListing;
+export default ProductListing

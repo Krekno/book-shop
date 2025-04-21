@@ -1,8 +1,8 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { useContext } from "react";
-import { CartContext } from "../CartContext";
-import products from "../data/products";
+import React from "react"
+import { Link } from "react-router-dom"
+import { useContext } from "react"
+import { CartContext } from "../CartContext"
+import products from "../data/products"
 
 const Homepage = () => {
 	return (
@@ -26,20 +26,20 @@ const Homepage = () => {
 				</div>
 			</section>
 		</>
-	);
-};
+	)
+}
 
 const ProductCard = ({ product }) => {
-	const { addToCart } = useContext(CartContext);
+	const { addToCart } = useContext(CartContext)
 
 	return (
-		<div className="product-card">
+		<Link className="product-card" to={`/products/${product.id}`}>
 			<img src={product.image} alt={product.name} />
 			<h3>{product.name}</h3>
 			<p>${product.price}</p>
 			<button onClick={() => addToCart(product)}>Add to Cart</button>
-		</div>
-	);
-};
+		</Link>
+	)
+}
 
-export default Homepage;
+export default Homepage
