@@ -33,12 +33,14 @@ const ProductCard = ({ product }) => {
 	const { addToCart } = useContext(CartContext)
 
 	return (
-		<Link className="product-card" to={`/products/${product.id}`}>
-			<img src={product.image} alt={product.name} />
-			<h3>{product.name}</h3>
-			<p>${product.price}</p>
+		<div>
+			<Link className="product-card" to={`/products/${product.id}`}>
+				<img src={product.image} alt={product.name} />
+				<h3>{product.name}</h3>
+				<p>${product.price}</p>
+			</Link>
 			<button onClick={() => addToCart(product)}>Add to Cart</button>
-		</Link>
+		</div>
 	)
 }
 

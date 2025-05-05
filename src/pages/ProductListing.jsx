@@ -16,17 +16,16 @@ const ProductListing = () => {
 			<aside className="filters">{/* Filter options go here */}</aside>
 			<main className="product-grid">
 				{products.map((product) => (
-					<Link
-						to={`/products/${product.id}`}
-						key={product.id}
-						className="product-item">
-						<img src={product.image} alt={product.name} />
-						<h3>{product.name}</h3>
-						<p>${product.price}</p>
+					<div key={product.id} className="product-item">
+						<Link to={`/products/${product.id}`}>
+							<img src={product.image} alt={product.name} />
+							<h3>{product.name}</h3>
+							<p>${product.price}</p>
+						</Link>
 						<button onClick={() => addToCart(product)}>
 							Add to Cart
 						</button>
-					</Link>
+					</div>
 				))}
 			</main>
 		</div>
