@@ -1,26 +1,58 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { useContext } from "react";
-import { CartContext } from "../CartContext";
+import React from "react"
+import logo from "/logo.jpg"
+import { Link } from "react-router-dom"
+import { useContext } from "react"
+import { CartContext } from "../CartContext"
 
 const Navbar = () => {
-	const { cartItems } = useContext(CartContext);
+	const { cartItems } = useContext(CartContext)
 
 	return (
-		<nav className="navbar">
-			<Link to="/" className="logo">
-				MyStore
-			</Link>
-			<div className="nav-links">
-				<Link to="/">Home</Link>
-				<Link to="/products">Products</Link>
-				<Link to="/cart">
-					Cart (
-					{cartItems.reduce((acc, item) => acc + item.quantity, 0)})
+		<nav className="navbar navbar-expand-xl navbar-light bg-light shadow-sm">
+			<div className="container">
+				<Link to="/" className="navbar-brand d-flex align-items-center">
+					<img src={logo} alt="Logo" width={50} height={50} className="me-2 rounded-circle" />
+					<span className="fw-bold">Book Shop</span>
 				</Link>
+
+				<button
+					className="navbar-toggler"
+					type="button"
+					data-bs-toggle="collapse"
+					data-bs-target="#navbarNav"
+					aria-controls="navbarNav"
+					aria-expanded="false"
+					aria-label="Toggle navigation">
+					<span className="navbar-toggler-icon"></span>
+				</button>
+
+				<div className="collapse navbar-collapse" id="navbarNav">
+					<ul className="navbar-nav ms-auto">
+						<li className="nav-item">
+							<Link to="/" className="nav-link">
+								Home
+							</Link>
+						</li>
+						<li className="nav-item">
+							<Link to="/products" className="nav-link">
+								Products
+							</Link>
+						</li>
+						<li className="nav-item">
+							<Link to="/login" className="nav-link">
+								Login/Register
+							</Link>
+						</li>
+						<li className="nav-item">
+							<Link to="/cart" className="nav-link">
+								Cart ({cartItems.reduce((acc, item) => acc + item.quantity, 0)})
+							</Link>
+						</li>
+					</ul>
+				</div>
 			</div>
 		</nav>
-	);
-};
+	)
+}
 
-export default Navbar;
+export default Navbar
