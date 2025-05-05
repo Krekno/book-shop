@@ -20,6 +20,8 @@ function AuthPage() {
 				email: loginData.email,
 				password: loginData.password
 			})
+			const data = response.data
+			localStorage.setItem("token", data.jwt)
 		} catch (err) {
 			console.error(err)
 			setError(err.response?.data?.message || "Login failed!")
