@@ -18,13 +18,18 @@ function AuthPage({ setIsLoggedIn, setUsername }) {
 		}
 
 		try {
-			const response = await axios.post("https://springboot-e-commerce-project.onrender.com/auth/login", {
-				email: loginData.email,
-				password: loginData.password
-			})
+			const response = await axios.post(
+				"https://springboot-e-commerce-project.onrender.com/auth/login",
+				{
+					email: loginData.email,
+					password: loginData.password
+				},
+				{
+					withCredentials: true
+				}
+			)
 			const data = response.data
 			console.log(data)
-			localStorage.setItem("token", data.jwt)
 			setIsLoggedIn(true)
 			setUsername(data.username)
 			Navigate("/")

@@ -9,11 +9,27 @@ import Cart from "./pages/Cart"
 import Checkout from "./pages/Checkout"
 import Login from "./pages/Login"
 import Profile from "./pages/Profile"
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import axios from "axios"
 
 function App() {
 	const [isLoggedIn, setIsLoggedIn] = useState(false)
 	const [username, setUsername] = useState("")
+
+	useEffect(() => {
+		const checkLogin = async () => {
+			try {
+				const res = await axios.get("https://springboot-e-commerce-project.onrender.com/auth/check", {
+					withCredentials: true
+				})
+				setIsLoggedIn(true)
+				setUsername(res.data.username)
+			} catch (err) {
+				setIsLoggedIn(false)
+			}
+		}
+		checkLogin()
+	}, [])
 
 	return (
 		<CartProvider>

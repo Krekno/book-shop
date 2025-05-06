@@ -7,14 +7,8 @@ export const CartProvider = ({ children }) => {
 	const [cartItems, setCartItems] = useState([])
 
 	const addToCart = (product) => {
-		if (cartItems.some((item) => item.id === product.id)) {
-			setCartItems(
-				cartItems.map((item) =>
-					item.id === product.id
-						? { ...item, quantity: item.quantity + 1 }
-						: item
-				)
-			)
+		if (cartItems.some((item) => item.isbn === product.isbn)) {
+			setCartItems(cartItems.map((item) => (item.isbn === product.isbn ? { ...item, quantity: item.quantity + 1 } : item)))
 			return
 		}
 		setCartItems([...cartItems, { ...product, quantity: 1 }])
@@ -22,19 +16,9 @@ export const CartProvider = ({ children }) => {
 
 	const removeFromCart = (productId) => {
 		setCartItems(
-			cartItems
-				.map((item) =>
-					item.id === productId
-						? { ...item, quantity: item.quantity - 1 }
-						: item
-				)
-				.filter((item) => item.quantity > 0)
+			cartItems.map((item) => (item.isbn === productId ? { ...item, quantity: item.quantity - 1 } : item)).filter((item) => item.quantity > 0)
 		)
 	}
 
-	return (
-		<CartContext.Provider value={{ cartItems, addToCart, removeFromCart }}>
-			{children}
-		</CartContext.Provider>
-	)
+	return <CartContext.Provider value={{ cartItems, addToCart, removeFromCart }}>{children}</CartContext.Provider>
 }
