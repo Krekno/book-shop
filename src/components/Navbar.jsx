@@ -4,7 +4,7 @@ import { Link } from "react-router-dom"
 import { useContext } from "react"
 import { CartContext } from "../CartContext"
 
-const Navbar = () => {
+const Navbar = ({ isLoggedIn, username }) => {
 	const { cartItems } = useContext(CartContext)
 
 	return (
@@ -33,16 +33,24 @@ const Navbar = () => {
 								Home
 							</Link>
 						</li>
-						<li className="nav-item">
+						{/*<li className="nav-item">
 							<Link to="/products" className="nav-link">
 								Products
 							</Link>
-						</li>
-						<li className="nav-item">
-							<Link to="/login" className="nav-link">
-								Login/Register
-							</Link>
-						</li>
+						</li>*/}
+						{isLoggedIn ? (
+							<li className="nav-item">
+								<Link to="/profile" className="nav-link">
+									{username}
+								</Link>
+							</li>
+						) : (
+							<li className="nav-item">
+								<Link to="/login" className="nav-link">
+									Login/Register
+								</Link>
+							</li>
+						)}
 						<li className="nav-item">
 							<Link to="/cart" className="nav-link">
 								Cart ({cartItems.reduce((acc, item) => acc + item.quantity, 0)})

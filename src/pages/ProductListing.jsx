@@ -14,7 +14,6 @@ const ProductListing = () => {
 			try {
 				const response = await axios.get("https://springboot-e-commerce-project.onrender.com/book/get-all-book")
 				const data = response.data
-				console.log(data)
 				setBooks(data)
 
 				const uniqueCategories = [...new Set(data.map((book) => book.category))]
@@ -68,7 +67,7 @@ const ProductListing = () => {
 						{filteredBooks.map((book) => (
 							<div key={book.isbn} className="col-md-4">
 								<div className="card h-100 shadow-sm">
-									<Link to={`/products/${book.id}`} className="text-decoration-none text-dark">
+									<Link to={`/products/${book.isbn}`} className="text-decoration-none text-dark">
 										<img src={book.image} alt={book.title} className="card-img-top img-fluid" />
 										<div className="card-body">
 											<h5 className="card-title">{book.title}</h5> <p className="card-text">${book.price}</p>{" "}

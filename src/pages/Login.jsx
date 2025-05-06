@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react"
 import "bootstrap/dist/css/bootstrap.min.css"
 import axios from "axios"
+import { useNavigate } from "react-router-dom"
 
-function AuthPage() {
+function AuthPage({ setIsLoggedIn, setUsername }) {
 	const [activeTab, setActiveTab] = useState("login")
 	const [loginData, setLoginData] = useState({ email: "", password: "" })
 	const [registerData, setRegisterData] = useState({ username: "", email: "", password: "", confirmPassword: "" })
 	const [error, setError] = useState("")
+	const Navigate = useNavigate()
 
 	const handleLogin = async (e) => {
 		e.preventDefault()
@@ -21,7 +23,11 @@ function AuthPage() {
 				password: loginData.password
 			})
 			const data = response.data
+			console.log(data)
 			localStorage.setItem("token", data.jwt)
+			setIsLoggedIn(true)
+			setUsername(data.username)
+			Navigate("/")
 		} catch (err) {
 			console.error(err)
 			setError(err.response?.data?.message || "Login failed!")
