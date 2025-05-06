@@ -12,16 +12,16 @@ import Login from "./pages/Login"
 function App() {
 	return (
 		<CartProvider>
-			<Router>
+			<Router basename="/shop">
 				<Navbar />
-				<Routes>
+				<Switch>
 					<Route path="/" element={<Homepage />} />
 					<Route path="/products" element={<ProductListing />} />
 					<Route path="/products/:id" element={<ProductDetail />} />
 					<Route path="/cart" element={<Cart />} />
 					<Route path="/checkout" element={<Checkout />} />
 					<Route path="/login" element={<Login />} />
-				</Routes>
+				</Switch>
 			</Router>
 		</CartProvider>
 	)
