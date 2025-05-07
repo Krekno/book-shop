@@ -1,30 +1,10 @@
 import React, { useContext, useState, useEffect } from "react"
 import { CartContext } from "../CartContext"
 import { Link } from "react-router-dom"
-import axios from "axios" // Import axios
 
-const ProductListing = () => {
-	const [books, setBooks] = useState([])
-	const [categories, setCategories] = useState([])
+const ProductListing = ({ books, categories }) => {
 	const [filters, setFilters] = useState({ category: "" })
 	const { addToCart } = useContext(CartContext)
-
-	useEffect(() => {
-		const fetchBooks = async () => {
-			try {
-				const response = await axios.get("https://springboot-e-commerce-project.onrender.com/book/get-all-book")
-				const data = response.data
-				setBooks(data)
-
-				const uniqueCategories = [...new Set(data.map((book) => book.category))]
-				setCategories(uniqueCategories)
-			} catch (error) {
-				console.error("Error fetching books:", error)
-			}
-		}
-
-		fetchBooks()
-	}, [])
 
 	const filteredBooks = books.filter((book) => (filters.category ? book.category === filters.category : true))
 
