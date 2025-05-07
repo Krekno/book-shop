@@ -18,24 +18,9 @@ function App() {
 	const [categories, setCategories] = useState([])
 
 	useEffect(() => {
-		const checkLogin = async () => {
-			try {
-				const res = await axios.get("https://springboot-e-commerce-project.onrender.com/auth/check", {
-					withCredentials: true
-				})
-				setIsLoggedIn(true)
-				setUsername(res.data.username)
-			} catch (err) {
-				setIsLoggedIn(false)
-			}
-		}
-		checkLogin()
-	}, [])
-
-	useEffect(() => {
 		const fetchBooks = async () => {
 			try {
-				const response = await axios.get("https://springboot-e-commerce-project.onrender.com/book/get-all-book")
+				const response = await axios.get("https://springboot-e-commerce-project-sab4.onrender.com/book/get-all-book")
 				const data = response.data
 				setBooks(data)
 
@@ -52,7 +37,7 @@ function App() {
 	return (
 		<CartProvider>
 			<Router>
-				<Navbar isLoggedIn={isLoggedIn} username={username} />
+				<Navbar isLoggedIn={isLoggedIn} />
 				<Routes>
 					<Route path="/" element={<ProductListing books={books} categories={categories} />} />
 					<Route path="/products/:id" element={<ProductDetail books={books} />} />

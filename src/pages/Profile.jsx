@@ -1,6 +1,6 @@
 import axios from "axios"
 import React, { useState } from "react"
-import { Navigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 const Profile = ({ setIsLoggedIn }) => {
 	const [formData, setFormData] = useState({
@@ -9,6 +9,7 @@ const Profile = ({ setIsLoggedIn }) => {
 	})
 
 	const [message, setMessage] = useState("")
+	const Navigate = useNavigate()
 
 	const handleChange = (e) => {
 		const { name, value } = e.target
@@ -18,10 +19,20 @@ const Profile = ({ setIsLoggedIn }) => {
 	const handleSubmit = async (e) => {
 		e.preventDefault()
 
-		try {
-			const response = await axios.put("https://springboot-e-commerce-project.onrender.com/user/update-profile", formData, {})
+		console.log("Form Data:", formData)
 
-			if (response.ok) {
+		if (!formData.email || !formData.password) {
+			setMessage("Both email and password are required.")
+			return
+		}
+
+		try {
+			const response = await axios.put("https://springboot-e-commerce-project-sab4.onrender.com/user/update-profile", formData, {
+				headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+			})
+
+			if (response.status === 200) {
+				setFormData({ email: "", password: "" })
 				setMessage("Credentials updated successfully!")
 			} else {
 				const error = await response.json()
@@ -29,23 +40,6 @@ const Profile = ({ setIsLoggedIn }) => {
 			}
 		} catch (err) {
 			setMessage("Server error. Try again later.")
-		}
-	}
-
-	const handleLogout = async () => {
-		try {
-			await axios.post(
-				"https://springboot-e-commerce-project.onrender.com/auth/logout",
-				{},
-				{
-					withCredentials: true
-				}
-			)
-			setIsLoggedIn(false)
-			setUsername("")
-			Navigate("/")
-		} catch (err) {
-			console.error("Logout failed", err)
 		}
 	}
 
@@ -87,9 +81,6 @@ const Profile = ({ setIsLoggedIn }) => {
 							Update Credentials
 						</button>
 					</form>
-					<button onClick={handleLogout} className="btn btn-danger w-100 mt-3">
-						Log Out
-					</button>
 					{message && (
 						<div className="alert alert-info text-center mt-3" role="alert">
 							{message}

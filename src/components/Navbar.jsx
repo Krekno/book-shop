@@ -4,7 +4,7 @@ import { Link } from "react-router-dom"
 import { useContext } from "react"
 import { CartContext } from "../CartContext"
 
-const Navbar = ({ isLoggedIn, username }) => {
+const Navbar = ({ isLoggedIn }) => {
 	const { cartItems } = useContext(CartContext)
 
 	return (
@@ -41,7 +41,7 @@ const Navbar = ({ isLoggedIn, username }) => {
 						{isLoggedIn ? (
 							<li className="nav-item">
 								<Link to="/profile" className="nav-link">
-									{username}
+									Profile
 								</Link>
 							</li>
 						) : (

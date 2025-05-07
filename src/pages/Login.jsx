@@ -19,20 +19,19 @@ function AuthPage({ setIsLoggedIn, setUsername }) {
 
 		try {
 			const response = await axios.post(
-				"https://springboot-e-commerce-project.onrender.com/auth/login",
+				"https://springboot-e-commerce-project-sab4.onrender.com/auth/login",
 				{
 					email: loginData.email,
 					password: loginData.password
 				},
-				{
-					withCredentials: true
-				}
+				{}
 			)
-			const data = response.data
-			console.log(data)
-			setIsLoggedIn(true)
-			setUsername(data.username)
-			Navigate("/")
+			if (response.status === 200) {
+				const data = response.data
+				localStorage.setItem("token", data.token)
+				setIsLoggedIn(true)
+				Navigate("/")
+			}
 		} catch (err) {
 			console.error(err)
 			setError(err.response?.data?.message || "Login failed!")
