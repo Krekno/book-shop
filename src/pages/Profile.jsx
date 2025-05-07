@@ -1,7 +1,8 @@
 import axios from "axios"
 import React, { useState } from "react"
+import { Navigate } from "react-router-dom"
 
-const Profile = () => {
+const Profile = ({ setIsLoggedIn }) => {
 	const [formData, setFormData] = useState({
 		email: "",
 		password: ""
@@ -28,6 +29,23 @@ const Profile = () => {
 			}
 		} catch (err) {
 			setMessage("Server error. Try again later.")
+		}
+	}
+
+	const handleLogout = async () => {
+		try {
+			await axios.post(
+				"https://springboot-e-commerce-project.onrender.com/auth/logout",
+				{},
+				{
+					withCredentials: true
+				}
+			)
+			setIsLoggedIn(false)
+			setUsername("")
+			Navigate("/")
+		} catch (err) {
+			console.error("Logout failed", err)
 		}
 	}
 
@@ -69,6 +87,9 @@ const Profile = () => {
 							Update Credentials
 						</button>
 					</form>
+					<button onClick={handleLogout} className="btn btn-danger w-100 mt-3">
+						Log Out
+					</button>
 					{message && (
 						<div className="alert alert-info text-center mt-3" role="alert">
 							{message}
