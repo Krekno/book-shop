@@ -2,7 +2,6 @@ import React from "react"
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import { CartProvider } from "./CartContext"
 import Navbar from "./components/Navbar"
-import Homepage from "./pages/Homepage"
 import ProductListing from "./pages/ProductListing"
 import ProductDetail from "./pages/ProductDetail"
 import Cart from "./pages/Cart"
@@ -15,6 +14,8 @@ import axios from "axios"
 function App() {
 	const [isLoggedIn, setIsLoggedIn] = useState(false)
 	const [username, setUsername] = useState("")
+	const [books, setBooks] = useState([])
+	const [categories, setCategories] = useState([])
 
 	useEffect(() => {
 		const checkLogin = async () => {
@@ -31,14 +32,30 @@ function App() {
 		checkLogin()
 	}, [])
 
+	useEffect(() => {
+		const fetchBooks = async () => {
+			try {
+				const response = await axios.get("https://springboot-e-commerce-project.onrender.com/book/get-all-book")
+				const data = response.data
+				setBooks(data)
+
+				const uniqueCategories = [...new Set(data.map((book) => book.category))]
+				setCategories(uniqueCategories)
+			} catch (error) {
+				console.error("Error fetching books:", error)
+			}
+		}
+
+		fetchBooks()
+	}, [])
+
 	return (
 		<CartProvider>
 			<Router>
 				<Navbar isLoggedIn={isLoggedIn} username={username} />
 				<Routes>
-					{/*<Route path="/" element={<Homepage />} />*/}
-					<Route path="/" element={<ProductListing />} />
-					<Route path="/products/:id" element={<ProductDetail />} />
+					<Route path="/" element={<ProductListing books={books} categories={categories} />} />
+					<Route path="/products/:id" element={<ProductDetail books={books} />} />
 					<Route path="/cart" element={<Cart />} />
 					<Route path="/checkout" element={<Checkout />} />
 					<Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} setUsername={setUsername} />} />
