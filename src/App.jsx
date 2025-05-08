@@ -35,8 +35,17 @@ function App() {
 		fetchBooks()
 	}, [])
 
+	useEffect(() => {
+		if (localStorage.getItem("token")) {
+			setIsLoggedIn(true)
+			const token = localStorage.getItem("token")
+			const decodedToken = JSON.parse(atob(token.split(".")[1]))
+			setRole(decodedToken.role)
+		}
+	}, [])
+
 	return (
-		<CartProvider>
+		<CartProvider isLoggedIn={isLoggedIn}>
 			<Router>
 				<Navbar isLoggedIn={isLoggedIn} role={role} />
 				<Routes>

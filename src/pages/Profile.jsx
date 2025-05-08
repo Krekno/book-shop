@@ -1,6 +1,5 @@
 import axios from "axios"
 import React, { useState } from "react"
-import { useNavigate } from "react-router-dom"
 
 const Profile = ({ setIsLoggedIn }) => {
 	const [formData, setFormData] = useState({
@@ -9,7 +8,6 @@ const Profile = ({ setIsLoggedIn }) => {
 	})
 
 	const [message, setMessage] = useState("")
-	const Navigate = useNavigate()
 
 	const handleChange = (e) => {
 		const { name, value } = e.target
@@ -41,6 +39,12 @@ const Profile = ({ setIsLoggedIn }) => {
 		} catch (err) {
 			setMessage("Server error. Try again later.")
 		}
+	}
+
+	const handleLogout = () => {
+		localStorage.removeItem("token")
+		setIsLoggedIn(false)
+		setMessage("Logged out successfully")
 	}
 
 	return (
@@ -77,10 +81,13 @@ const Profile = ({ setIsLoggedIn }) => {
 								placeholder="Enter new password"
 							/>
 						</div>
-						<button type="submit" className="btn btn-primary w-100">
+						<button type="submit" className="btn btn-primary w-100 mb-2">
 							Update Credentials
 						</button>
 					</form>
+					<button onClick={handleLogout} className="btn btn-danger w-100">
+						Log Out
+					</button>
 					{message && (
 						<div className="alert alert-info text-center mt-3" role="alert">
 							{message}
