@@ -14,12 +14,19 @@ export default function AdminPanel() {
 		image: ""
 	})
 
+	const [currentIsbn, setCurrentIsbn] = useState("")
+
 	const handleChange = (e) => {
 		const { name, value } = e.target
-		setBook((prev) => ({
-			...prev,
-			[name]: value
-		}))
+
+		if (name === "current_isbn") {
+			setCurrentIsbn(value)
+		} else {
+			setBook((prevBook) => ({
+				...prevBook,
+				[name]: value
+			}))
+		}
 	}
 
 	const handleAddSubmit = async (e) => {
@@ -74,7 +81,7 @@ export default function AdminPanel() {
 			return
 		}
 		try {
-			const response = await axios.patch(`https://springboot-e-commerce-project-sab4.onrender.com/book/update-book/${book.isbn}`, book, {
+			const response = await axios.patch(`https://springboot-e-commerce-project-sab4.onrender.com/book/update-book/${currentIsbn}`, book, {
 				headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
 			})
 
@@ -84,6 +91,30 @@ export default function AdminPanel() {
 		} catch (error) {
 			console.error("Error updating book:", error)
 			alert("Failed to update book. Please try again.")
+		}
+	}
+
+	const handleDeleteSubmit = async (e) => {
+		e.preventDefault()
+		if (!currentIsbn || isNaN(currentIsbn) || currentIsbn.length !== 13) {
+			alert("Please enter a valid 13-digit ISBN.")
+			return
+		}
+		try {
+			const response = await axios.put(
+				`https://springboot-e-commerce-project-sab4.onrender.com/book/delete-book/${currentIsbn}`,
+				{},
+				{
+					headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+				}
+			)
+			if (response.status === 200) {
+				alert("Book deleted successfully!")
+				setCurrentIsbn("")
+			}
+		} catch (error) {
+			console.error("Error deleting book:", error)
+			alert("Failed to delete book. Please try again.")
 		}
 	}
 
@@ -215,6 +246,50 @@ export default function AdminPanel() {
 										))}
 										<button type="submit" className="btn btn-warning w-100">
 											🛠️ Update Book
+										</button>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				{/* Delete Book Accordion */}
+				<div className="accordion-item">
+					<h2 className="accordion-header" id="headingDelete">
+						<button
+							className="accordion-button collapsed"
+							type="button"
+							data-bs-toggle="collapse"
+							data-bs-target="#collapseDelete"
+							aria-expanded="false"
+							aria-controls="collapseDelete">
+							🗑️ Delete Book
+						</button>
+					</h2>
+					<div
+						id="collapseDelete"
+						className="accordion-collapse collapse"
+						aria-labelledby="headingDelete"
+						data-bs-parent="#bookFormAccordion">
+						<div className="accordion-body">
+							<div className="card shadow">
+								<div className="card-header bg-danger text-white">
+									<h3 className="mb-0">⚠️ Delete Book</h3>
+								</div>
+								<div className="card-body">
+									<form onSubmit={handleDeleteSubmit}>
+										<div className="mb-3">
+											<label className="form-label">Enter ISBN to Delete</label>
+											<input
+												type="number"
+												name="current_isbn"
+												value={currentIsbn}
+												onChange={handleChange}
+												className="form-control"
+											/>
+										</div>
+										<button type="submit" className="btn btn-danger w-100">
+											🗑️ Delete Book
 										</button>
 									</form>
 								</div>
