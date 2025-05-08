@@ -3,7 +3,6 @@ import axios from "axios"
 
 export default function AdminPanel() {
 	const [book, setBook] = useState({
-		current_isbn: "",
 		isbn: "",
 		title: "",
 		author: "",
