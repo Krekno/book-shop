@@ -74,13 +74,9 @@ export default function AdminPanel() {
 			return
 		}
 		try {
-			const response = await axios.patch(
-				`https://springboot-e-commerce-project-sab4.onrender.com/book/update-book/${book.current_isbn}`,
-				book,
-				{
-					headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
-				}
-			)
+			const response = await axios.patch(`https://springboot-e-commerce-project-sab4.onrender.com/book/update-book/${book.isbn}`, book, {
+				headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+			})
 
 			if (response.status === 200) {
 				alert("Book updated successfully!")
