@@ -50,7 +50,7 @@ const ProductListing = ({ books, categories }) => {
 									<Link to={`/products/${book.isbn}`} className="text-decoration-none text-dark">
 										<img src={book.image} alt={book.title} className="card-img-top img-fluid" />
 										<div className="card-body">
-											<h5 className="card-title">{book.title}</h5> <p className="card-text">${book.price}</p>{" "}
+											<h5 className="card-title">{book.title}</h5> <p className="card-text">₺{book.price}</p>{" "}
 										</div>
 									</Link>
 									<div className="card-footer bg-transparent border-top-0">
