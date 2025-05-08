@@ -30,7 +30,8 @@ function AuthPage({ setIsLoggedIn, setRole }) {
 				const data = response.data
 				localStorage.setItem("token", data.token)
 				setIsLoggedIn(true)
-				setRole(data.role)
+				const token = JSON.parse(atob(data.token.split(".")[1]))
+				setRole(token.role)
 				navigate("/")
 			}
 		} catch (err) {

@@ -54,7 +54,7 @@ function App() {
 					<Route path="/cart" element={<Cart />} />
 					<Route path="/checkout" element={<Checkout />} />
 					<Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} setRole={setRole} />} />
-					<Route path="/profile" element={<Profile setIsLoggedIn={setIsLoggedIn} />}></Route>
+					<Route path="/profile" element={<Profile setIsLoggedIn={setIsLoggedIn} setRole={setRole} />}></Route>
 					<Route path="/admin" element={<AdminPanel />} />
 				</Routes>
 			</Router>

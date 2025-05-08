@@ -1,7 +1,7 @@
 import axios from "axios"
 import React, { useState } from "react"
 
-const Profile = ({ setIsLoggedIn }) => {
+const Profile = ({ setIsLoggedIn, setRole }) => {
 	const [formData, setFormData] = useState({
 		email: "",
 		password: ""
@@ -44,6 +44,7 @@ const Profile = ({ setIsLoggedIn }) => {
 	const handleLogout = () => {
 		localStorage.removeItem("token")
 		setIsLoggedIn(false)
+		setRole("")
 		setMessage("Logged out successfully")
 	}
 
