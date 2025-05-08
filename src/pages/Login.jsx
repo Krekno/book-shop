@@ -3,12 +3,12 @@ import "bootstrap/dist/css/bootstrap.min.css"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
 
-function AuthPage({ setIsLoggedIn, setUsername }) {
+function AuthPage({ setIsLoggedIn, setRole }) {
 	const [activeTab, setActiveTab] = useState("login")
 	const [loginData, setLoginData] = useState({ email: "", password: "" })
 	const [registerData, setRegisterData] = useState({ username: "", email: "", password: "", confirmPassword: "" })
 	const [error, setError] = useState("")
-	const Navigate = useNavigate()
+	const navigate = useNavigate()
 
 	const handleLogin = async (e) => {
 		e.preventDefault()
@@ -30,7 +30,8 @@ function AuthPage({ setIsLoggedIn, setUsername }) {
 				const data = response.data
 				localStorage.setItem("token", data.token)
 				setIsLoggedIn(true)
-				Navigate("/")
+				setRole(data.role)
+				navigate("/")
 			}
 		} catch (err) {
 			console.error(err)

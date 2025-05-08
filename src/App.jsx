@@ -8,12 +8,13 @@ import Cart from "./pages/Cart"
 import Checkout from "./pages/Checkout"
 import Login from "./pages/Login"
 import Profile from "./pages/Profile"
+import AdminPanel from "./pages/AdminPanel"
 import { useState, useEffect } from "react"
 import axios from "axios"
 
 function App() {
 	const [isLoggedIn, setIsLoggedIn] = useState(false)
-	const [username, setUsername] = useState("")
+	const [role, setRole] = useState("")
 	const [books, setBooks] = useState([])
 	const [categories, setCategories] = useState([])
 
@@ -37,14 +38,15 @@ function App() {
 	return (
 		<CartProvider>
 			<Router>
-				<Navbar isLoggedIn={isLoggedIn} />
+				<Navbar isLoggedIn={isLoggedIn} role={role} />
 				<Routes>
 					<Route path="/" element={<ProductListing books={books} categories={categories} />} />
 					<Route path="/products/:id" element={<ProductDetail books={books} />} />
 					<Route path="/cart" element={<Cart />} />
 					<Route path="/checkout" element={<Checkout />} />
-					<Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} setUsername={setUsername} />} />
+					<Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} setRole={setRole} />} />
 					<Route path="/profile" element={<Profile setIsLoggedIn={setIsLoggedIn} />}></Route>
+					<Route path="/admin" element={<AdminPanel />} />
 				</Routes>
 			</Router>
 		</CartProvider>

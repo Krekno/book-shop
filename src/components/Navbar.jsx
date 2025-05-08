@@ -4,7 +4,7 @@ import { Link } from "react-router-dom"
 import { useContext } from "react"
 import { CartContext } from "../CartContext"
 
-const Navbar = ({ isLoggedIn }) => {
+const Navbar = ({ isLoggedIn, role }) => {
 	const { cartItems } = useContext(CartContext)
 
 	return (
@@ -33,11 +33,13 @@ const Navbar = ({ isLoggedIn }) => {
 								Home
 							</Link>
 						</li>
-						{/*<li className="nav-item">
-							<Link to="/products" className="nav-link">
-								Products
-							</Link>
-						</li>*/}
+						{role === "ROLE_ADMIN" && (
+							<li className="nav-item">
+								<Link to="/admin" className="nav-link">
+									Admin Panel
+								</Link>
+							</li>
+						)}
 						{isLoggedIn ? (
 							<li className="nav-item">
 								<Link to="/profile" className="nav-link">
