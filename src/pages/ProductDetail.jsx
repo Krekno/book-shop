@@ -23,8 +23,13 @@ const ProductDetail = ({ books }) => {
 					<div className="card h-100 shadow-sm">
 						<div className="card-body">
 							<h1 className="card-title">{book.title}</h1>
+							<h5 className="card-subtitle mb-2 text-muted">{book.author}</h5>
+							<h6 className="card-subtitle mb-2 text-muted">{book.publisher}</h6>
+							<h6 className="card-subtitle mb-2 text-muted">{book.category}</h6>
 							<p className="card-text text-muted">₺{book.price}</p>
 							<p className="card-text">{book.description}</p>
+							<p className="card-text">Stock: {book.quantity}</p>
+							<p className="card-text">Isbn: {book.isbn}</p>
 							<button className="btn btn-primary w-100" onClick={() => addToCart(book)}>
 								Add to Cart
 							</button>

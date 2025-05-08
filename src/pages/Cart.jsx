@@ -27,7 +27,7 @@ const Cart = () => {
 											<div className="card-body">
 												<h5 className="card-title">{item.name}</h5>
 												<p className="card-text">
-													${item.price} × {item.quantity}
+													₺{item.price} × {item.quantity}
 												</p>
 												<button className="btn btn-outline-danger btn-sm" onClick={() => removeFromCart(item.isbn)}>
 													Remove
@@ -43,7 +43,7 @@ const Cart = () => {
 					<hr className="my-4" />
 
 					<div className="d-flex justify-content-between align-items-center">
-						<h4>Total: ${total.toFixed(2)}</h4>
+						<h4>Total: ₺{total.toFixed(2)}</h4>
 						<button className="btn btn-primary btn-lg">Proceed to Checkout</button>
 					</div>
 				</>
