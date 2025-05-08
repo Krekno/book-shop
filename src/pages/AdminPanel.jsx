@@ -22,7 +22,7 @@ export default function AdminPanel() {
 		}))
 	}
 
-	const handleSubmit = async (e) => {
+	const handleAddSubmit = async (e) => {
 		e.preventDefault()
 		if (!book.isbn || !book.title || !book.author || !book.category || !book.quantity || !book.description || !book.publisher || !book.price) {
 			alert("Please fill in all fields.")
@@ -65,36 +65,68 @@ export default function AdminPanel() {
 
 	return (
 		<div className="container mt-5">
-			<div className="card shadow">
-				<div className="card-header bg-primary text-white">
-					<h3 className="mb-0">📘 Add New Book</h3>
-				</div>
-				<div className="card-body">
-					<form onSubmit={handleSubmit}>
-						{[
-							{ name: "isbn", label: "ISBN", type: "number" },
-							{ name: "title", label: "Title" },
-							{ name: "author", label: "Author" },
-							{ name: "category", label: "Category" },
-							{ name: "quantity", label: "Quantity", type: "number" },
-							{ name: "description", label: "Description", type: "textarea" },
-							{ name: "publisher", label: "Publisher" },
-							{ name: "price", label: "Price", type: "number", step: "0.01" },
-							{ name: "image", label: "Image URL" }
-						].map(({ name, label, type = "text", step }) => (
-							<div className="mb-3" key={name}>
-								<label className="form-label">{label}</label>
-								{type === "textarea" ? (
-									<textarea name={name} value={book[name]} onChange={handleChange} className="form-control" rows={3} />
-								) : (
-									<input type={type} name={name} step={step} value={book[name]} onChange={handleChange} className="form-control" />
-								)}
-							</div>
-						))}
-						<button type="submit" className="btn btn-success w-100">
-							➕ Add Book
+			<div className="accordion" id="bookFormAccordion">
+				<div className="accordion-item">
+					<h2 className="accordion-header" id="headingForm">
+						<button
+							className="accordion-button collapsed"
+							type="button"
+							data-bs-toggle="collapse"
+							data-bs-target="#collapseForm"
+							aria-expanded="false"
+							aria-controls="collapseForm">
+							➕ Add New Book
 						</button>
-					</form>
+					</h2>
+					<div id="collapseForm" className="accordion-collapse collapse" aria-labelledby="headingForm" data-bs-parent="#bookFormAccordion">
+						<div className="accordion-body">
+							<div className="card shadow">
+								<div className="card-header bg-primary text-white">
+									<h3 className="mb-0">📘 Book Details</h3>
+								</div>
+								<div className="card-body">
+									<form onSubmit={handleAddSubmit}>
+										{[
+											{ name: "isbn", label: "ISBN", type: "number" },
+											{ name: "title", label: "Title" },
+											{ name: "author", label: "Author" },
+											{ name: "category", label: "Category" },
+											{ name: "quantity", label: "Quantity", type: "number" },
+											{ name: "description", label: "Description", type: "textarea" },
+											{ name: "publisher", label: "Publisher" },
+											{ name: "price", label: "Price", type: "number", step: "0.01" },
+											{ name: "image", label: "Image URL" }
+										].map(({ name, label, type = "text", step }) => (
+											<div className="mb-3" key={name}>
+												<label className="form-label">{label}</label>
+												{type === "textarea" ? (
+													<textarea
+														name={name}
+														value={book[name]}
+														onChange={handleChange}
+														className="form-control"
+														rows={3}
+													/>
+												) : (
+													<input
+														type={type}
+														name={name}
+														step={step}
+														value={book[name]}
+														onChange={handleChange}
+														className="form-control"
+													/>
+												)}
+											</div>
+										))}
+										<button type="submit" className="btn btn-success w-100">
+											➕ Add Book
+										</button>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
