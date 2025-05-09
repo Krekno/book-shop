@@ -72,10 +72,6 @@ export default function AdminPanel() {
 
 	const handleUpdateSubmit = async (e) => {
 		e.preventDefault()
-		if (!book.isbn) {
-			alert("ISBN is required to update a book.")
-			return
-		}
 		if (isNaN(book.isbn) || book.isbn.length !== 13) {
 			alert("ISBN must be a 13-digit number.")
 			return

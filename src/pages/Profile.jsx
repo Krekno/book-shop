@@ -1,7 +1,9 @@
 import axios from "axios"
-import React, { useState } from "react"
+import React, { useState, useNavigate } from "react"
 
 const Profile = ({ setIsLoggedIn, setRole }) => {
+	const navigate = useNavigate()
+
 	const [formData, setFormData] = useState({
 		email: "",
 		password: ""
@@ -45,7 +47,7 @@ const Profile = ({ setIsLoggedIn, setRole }) => {
 		localStorage.removeItem("token")
 		setIsLoggedIn(false)
 		setRole("")
-		setMessage("Logged out successfully")
+		navigate("/login")
 	}
 
 	return (
