@@ -16,6 +16,26 @@ const ProductListing = ({ books, categories }) => {
 					<h5>Filters</h5>
 					<div className="card shadow-sm">
 						<div className="card-body">
+							{/* Show All Option */}
+							<div className="form-check">
+								<input
+									type="radio"
+									className="form-check-input"
+									id="all"
+									name="category"
+									checked={filters.category === ""}
+									onChange={() =>
+										setFilters({
+											...filters,
+											category: ""
+										})
+									}
+								/>
+								<label className="form-check-label" htmlFor="all">
+									All Categories
+								</label>
+							</div>
+
 							{/* Dynamically render categories */}
 							{categories.map((category) => (
 								<div key={category} className="form-check">
