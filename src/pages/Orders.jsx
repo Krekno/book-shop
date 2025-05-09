@@ -73,45 +73,47 @@ export default function Orders({ role }) {
 				<div className="alert alert-info">No orders found.</div>
 			) : (
 				<div className="row g-4">
-					{orders.map((order) => (
-						<div className="col-md-6" key={order.orderId}>
-							<div className="card h-100">
-								<div className="card-body">
-									<div className="d-flex justify-content-between mb-2">
-										<div>
-											<h5 className="card-title">Order #{order.orderId}</h5>
-											<p className="text-muted small mb-1">Date: {new Date(order.createdAt).toLocaleString()}</p>
-											<p className="text-muted small mb-1">Email: {order.email}</p>
-											<p className="text-muted small mb-1">Username: {order.username}</p>
+					{[...orders]
+						.sort((a, b) => (a.status === "PENDING" ? -1 : b.status === "PENDING" ? 1 : 0))
+						.map((order) => (
+							<div className="col-md-6" key={order.orderId}>
+								<div className="card h-100">
+									<div className="card-body">
+										<div className="d-flex justify-content-between mb-2">
+											<div>
+												<h5 className="card-title">Order #{order.orderId}</h5>
+												<p className="text-muted small mb-1">Date: {new Date(order.createdAt).toLocaleString()}</p>
+												<p className="text-muted small mb-1">Email: {order.email}</p>
+												<p className="text-muted small mb-1">Username: {order.username}</p>
+											</div>
+											<span className="badge bg-secondary align-self-start">{order.status}</span>
 										</div>
-										<span className="badge bg-secondary align-self-start">{order.status}</span>
+
+										<h6 className="mt-3">Items:</h6>
+										<ul className="list-group list-group-flush mb-3">
+											{order.items.map((item, idx) => (
+												<li key={idx} className="list-group-item px-0 py-1">
+													{item.bookTitle} - {item.quantity} x {item.pricePerUnit} = ₺{item.quantity * item.pricePerUnit}
+												</li>
+											))}
+										</ul>
+										<p className="fw-bold text-end mb-3">Total: ₺{order.totalPrice.toFixed(2)}</p>
+
+										{/* Admin Buttons */}
+										{role === "ROLE_ADMIN" && order.status === "PENDING" && (
+											<div className="d-flex justify-content-end gap-2">
+												<button className="btn btn-success btn-sm" onClick={() => handleApprove(order.orderId)}>
+													✅ Approve
+												</button>
+												<button className="btn btn-danger btn-sm" onClick={() => handleReject(order.orderId)}>
+													❌ Reject
+												</button>
+											</div>
+										)}
 									</div>
-
-									<h6 className="mt-3">Items:</h6>
-									<ul className="list-group list-group-flush mb-3">
-										{order.items.map((item, idx) => (
-											<li key={idx} className="list-group-item px-0 py-1">
-												{item.bookTitle} - {item.quantity} x {item.pricePerUnit} = ₺{item.quantity * item.pricePerUnit}
-											</li>
-										))}
-									</ul>
-									<p className="fw-bold text-end mb-3">Total: ₺{order.totalPrice.toFixed(2)}</p>
-
-									{/* Admin Buttons */}
-									{role === "ROLE_ADMIN" && order.status === "PENDING" && (
-										<div className="d-flex justify-content-end gap-2">
-											<button className="btn btn-success btn-sm" onClick={() => handleApprove(order.orderId)}>
-												✅ Approve
-											</button>
-											<button className="btn btn-danger btn-sm" onClick={() => handleReject(order.orderId)}>
-												❌ Reject
-											</button>
-										</div>
-									)}
 								</div>
 							</div>
-						</div>
-					))}
+						))}
 				</div>
 			)}
 		</div>
