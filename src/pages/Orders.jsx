@@ -31,7 +31,7 @@ export default function Orders({ role }) {
 		getOrders()
 	}, [endpoint, role, token])
 
-	const handleApprove = async (orderId, newStatus) => {
+	const handleApprove = async (orderId) => {
 		try {
 			await axios.put(
 				`https://springboot-e-commerce-project-sab4.onrender.com/order/admin/approve/${orderId}`,
@@ -42,16 +42,16 @@ export default function Orders({ role }) {
 					}
 				}
 			)
-			setOrders((prevOrders) => prevOrders.map((order) => (order.orderId === orderId ? { ...order, status: newStatus } : order)))
+			setOrders((prevOrders) => prevOrders.map((order) => (order.orderId === orderId ? { ...order, status: "APPROVED" } : order)))
 		} catch (error) {
 			console.error(`Error updating status for order ${orderId}:`, error)
 		}
 	}
 
-	const handleReject = async (orderId, newStatus) => {
+	const handleReject = async (orderId) => {
 		try {
 			await axios.put(
-				`https://springboot-e-commerce-project-sab4.onrender.com/order/admin/approve/${orderId}`,
+				`https://springboot-e-commerce-project-sab4.onrender.com/order/admin/reject/${orderId}`,
 				{},
 				{
 					headers: {
@@ -59,7 +59,7 @@ export default function Orders({ role }) {
 					}
 				}
 			)
-			setOrders((prevOrders) => prevOrders.map((order) => (order.orderId === orderId ? { ...order, status: newStatus } : order)))
+			setOrders((prevOrders) => prevOrders.map((order) => (order.orderId === orderId ? { ...order, status: "REJECTED" } : order)))
 		} catch (error) {
 			console.error(`Error updating status for order ${orderId}:`, error)
 		}
@@ -100,10 +100,10 @@ export default function Orders({ role }) {
 									{/* Admin Buttons */}
 									{role === "ROLE_ADMIN" && order.status === "PENDING" && (
 										<div className="d-flex justify-content-end gap-2">
-											<button className="btn btn-success btn-sm" onClick={() => handleApprove(order.orderId, "APPROVED")}>
+											<button className="btn btn-success btn-sm" onClick={() => handleApprove(order.orderId)}>
 												✅ Approve
 											</button>
-											<button className="btn btn-danger btn-sm" onClick={() => handleReject(order.orderId, "REJECTED")}>
+											<button className="btn btn-danger btn-sm" onClick={() => handleReject(order.orderId)}>
 												❌ Reject
 											</button>
 										</div>

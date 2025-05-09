@@ -9,7 +9,7 @@ const Cart = () => {
 
 	const total = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0)
 
-	const handleCheckout = async () => {
+	const handleOrder = async () => {
 		try {
 			const response = await axios.post(
 				"https://springboot-e-commerce-project-sab4.onrender.com/order/place",
@@ -20,10 +20,10 @@ const Cart = () => {
 					}
 				}
 			)
-			alert("Checkout successful! Thank you for your purchase.")
+			alert("Order successful! Thank you for your purchase.")
 		} catch (error) {
-			console.error("Error during checkout:", error)
-			alert("Checkout failed. Please try again.")
+			console.error("Error during order:", error)
+			alert("Order failed. Please try again.")
 		}
 	}
 
@@ -64,7 +64,7 @@ const Cart = () => {
 
 					<div className="d-flex justify-content-between align-items-center">
 						<h4>Total: ₺{total.toFixed(2)}</h4>
-						<button className="btn btn-primary btn-lg" onClick={handleCheckout}>
+						<button className="btn btn-primary btn-lg" onClick={handleOrder}>
 							Order
 						</button>
 					</div>
