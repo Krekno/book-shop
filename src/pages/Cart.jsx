@@ -9,6 +9,24 @@ const Cart = () => {
 
 	const total = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0)
 
+	const handleCheckout = async () => {
+		try {
+			const response = await axios.post(
+				"https://api.example.com/checkout",
+				{},
+				{
+					headers: {
+						Authorization: `Bearer ${localStorage.getItem("token")}`
+					}
+				}
+			)
+			alert("Checkout successful!")
+		} catch (error) {
+			console.error("Checkout error:", error)
+			alert("Checkout failed. Please try again.")
+		}
+	}
+
 	return (
 		<div className="container mt-5">
 			<h1 className="mb-4">🛒 Your Cart</h1>
@@ -46,7 +64,9 @@ const Cart = () => {
 
 					<div className="d-flex justify-content-between align-items-center">
 						<h4>Total: ₺{total.toFixed(2)}</h4>
-						<button className="btn btn-primary btn-lg">Proceed to Checkout</button>
+						<button className="btn btn-primary btn-lg" onClick={handleCheckout}>
+							Proceed to Checkout
+						</button>
 					</div>
 				</>
 			)}

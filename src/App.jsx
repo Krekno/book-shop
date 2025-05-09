@@ -40,8 +40,16 @@ function App() {
 		if (localStorage.getItem("token")) {
 			setIsLoggedIn(true)
 			const token = localStorage.getItem("token")
-			const decodedToken = JSON.parse(atob(token.split(".")[1]))
-			setRole(decodedToken.role)
+
+			try {
+				const decodedToken = JSON.parse(atob(token.split(".")[1]))
+				setRole(decodedToken.role)
+			} catch (error) {
+				console.error("Invalid token format:", error)
+				setIsLoggedIn(false)
+				setRole("") // or maybe redirect to login
+				localStorage.removeItem("token") // nuke it if it's bad
+			}
 		}
 	}, [])
 

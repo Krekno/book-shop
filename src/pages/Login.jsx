@@ -57,6 +57,15 @@ function AuthPage({ setIsLoggedIn, setRole }) {
 				email: registerData.email,
 				password: registerData.password
 			})
+
+			if (response.status === 200) {
+				const data = response.data
+				localStorage.setItem("token", data.token)
+				setIsLoggedIn(true)
+				const token = JSON.parse(atob(data.token.split(".")[1]))
+				setRole(token.role)
+				navigate("/")
+			}
 		} catch (err) {
 			console.error(err)
 			setError(err.response?.data?.message || "Registration failed!")
