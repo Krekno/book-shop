@@ -1,6 +1,8 @@
 import React from "react"
 import { HashRouter as Router, Routes, Route } from "react-router-dom"
 import { CartProvider } from "./CartContext"
+import { useState, useEffect } from "react"
+import axios from "axios"
 import Navbar from "./components/Navbar"
 import ProductListing from "./pages/ProductListing"
 import ProductDetail from "./pages/ProductDetail"
@@ -9,8 +11,7 @@ import Checkout from "./pages/Checkout"
 import Login from "./pages/Login"
 import Profile from "./pages/Profile"
 import AdminPanel from "./pages/AdminPanel"
-import { useState, useEffect } from "react"
-import axios from "axios"
+import Orders from "./pages/Orders"
 
 function App() {
 	const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -92,6 +93,7 @@ function App() {
 					<Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} setRole={setRole} />} />
 					<Route path="/profile" element={<Profile setIsLoggedIn={setIsLoggedIn} setRole={setRole} />}></Route>
 					<Route path="/admin" element={<AdminPanel />} />
+					<Route path="/orders" element={<Orders role={role} />} />
 				</Routes>
 			</Router>
 		</CartProvider>

@@ -33,6 +33,13 @@ const Navbar = ({ isLoggedIn, role }) => {
 								Home
 							</Link>
 						</li>
+						{isLoggedIn ? (
+							<li className="nav-item">
+								<Link to="/orders" className="nav-link">
+									Orders
+								</Link>
+							</li>
+						) : null}
 						{role === "ROLE_ADMIN" && (
 							<li className="nav-item">
 								<Link to="/admin" className="nav-link">

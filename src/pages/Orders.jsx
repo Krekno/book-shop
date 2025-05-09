@@ -1,13 +1,18 @@
 import React from "react"
 import { useEffect, useState } from "react"
-export default function Orders() {
+export default function Orders({ role }) {
 	const [orders, setOrders] = useState([])
+
+	const endpoint =
+		role === "ROLE_ADMIN"
+			? "https://springboot-e-commerce-project-sab4.onrender.com/order/all-orders"
+			: "https://springboot-e-commerce-project-sab4.onrender.com/order/my-orders"
 
 	useEffect(() => {
 		const getOrders = async () => {
 			try {
 				const response = await axios.get(
-					"https://springboot-e-commerce-project-sab4.onrender.com/order/my-orders",
+					endpoint,
 					{},
 					{
 						headers: {
@@ -34,7 +39,7 @@ export default function Orders() {
 			<h1 className="mb-4 fw-bold">📚 Your Orders</h1>
 
 			{orders.length === 0 ? (
-				<div className="alert alert-info">No orders found. Go on, treat yourself to a book 📖</div>
+				<div className="alert alert-info">No orders found.</div>
 			) : (
 				<div className="row g-4">
 					{orders.map((order) => (
