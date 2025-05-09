@@ -12,7 +12,7 @@ const Cart = () => {
 	const handleCheckout = async () => {
 		try {
 			const response = await axios.post(
-				"https://api.example.com/checkout",
+				"https://springboot-e-commerce-project-sab4.onrender.com/order/place",
 				{},
 				{
 					headers: {
@@ -20,9 +20,9 @@ const Cart = () => {
 					}
 				}
 			)
-			alert("Checkout successful!")
+			alert("Checkout successful! Thank you for your purchase.")
 		} catch (error) {
-			console.error("Checkout error:", error)
+			console.error("Error during checkout:", error)
 			alert("Checkout failed. Please try again.")
 		}
 	}
