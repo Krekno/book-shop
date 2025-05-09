@@ -65,7 +65,7 @@ const Cart = () => {
 					<div className="d-flex justify-content-between align-items-center">
 						<h4>Total: ₺{total.toFixed(2)}</h4>
 						<button className="btn btn-primary btn-lg" onClick={handleCheckout}>
-							Proceed to Checkout
+							Order
 						</button>
 					</div>
 				</>
