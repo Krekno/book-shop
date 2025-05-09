@@ -5,14 +5,14 @@ import { createContext, useState } from "react"
 export const CartContext = createContext()
 
 export const CartProvider = ({ children, isLoggedIn, cartItems, setCartItems }) => {
-	const addToCart = (product) => {
+	const addToCart = async (product) => {
 		if (isLoggedIn === false) {
 			alert("Please log in to add items to the cart")
 			return
 		}
 
 		try {
-			axios.post(
+			await axios.post(
 				`https://springboot-e-commerce-project-sab4.onrender.com/cart/add?isbn=${product.isbn}&quantity=${1}`,
 				{},
 				{
