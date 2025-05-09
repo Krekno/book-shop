@@ -4,9 +4,7 @@ import { createContext, useState } from "react"
 
 export const CartContext = createContext()
 
-export const CartProvider = ({ children, isLoggedIn }) => {
-	const [cartItems, setCartItems] = useState([])
-
+export const CartProvider = ({ children, isLoggedIn, cartItems, setCartItems }) => {
 	const addToCart = (product) => {
 		if (isLoggedIn === false) {
 			alert("Please log in to add items to the cart")
@@ -15,14 +13,10 @@ export const CartProvider = ({ children, isLoggedIn }) => {
 
 		try {
 			axios.post(
-				"https://springboot-e-commerce-project-sab4.onrender.com/cart/add",
-				{
-					isbn: product.isbn,
-					quantity: 1
-				},
+				`https://springboot-e-commerce-project-sab4.onrender.com/cart/add?isbn=${product.isbn}&quantity=${1}`,
+				{},
 				{
 					headers: {
-						"Content-Type": "application/json",
 						Authorization: `Bearer ${localStorage.getItem("token")}`
 					}
 				}
@@ -40,28 +34,24 @@ export const CartProvider = ({ children, isLoggedIn }) => {
 		setCartItems([...cartItems, { ...product, quantity: 1 }])
 	}
 
-	const removeFromCart = (productId) => {
+	const removeFromCart = async (isbn) => {
 		try {
-			axios.post(
-				"https://springboot-e-commerce-project-sab4.onrender.com/cart/remove",
-				{
-					isbn: productId
-				},
+			await axios.post(
+				`https://springboot-e-commerce-project-sab4.onrender.com/cart/remove?isbn=${isbn}`,
+				{},
 				{
 					headers: {
-						"Content-Type": "application/json",
 						Authorization: `Bearer ${localStorage.getItem("token")}`
 					}
 				}
+			)
+			setCartItems(
+				cartItems.map((item) => (item.isbn === isbn ? { ...item, quantity: item.quantity - 1 } : item)).filter((item) => item.quantity > 0)
 			)
 		} catch (error) {
 			alert("Error removing from cart")
 			console.error("Error removing from cart:", error)
 		}
-
-		setCartItems(
-			cartItems.map((item) => (item.isbn === productId ? { ...item, quantity: item.quantity - 1 } : item)).filter((item) => item.quantity > 0)
-		)
 	}
 
 	return <CartContext.Provider value={{ cartItems, addToCart, removeFromCart }}>{children}</CartContext.Provider>

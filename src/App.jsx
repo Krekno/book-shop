@@ -17,6 +17,7 @@ function App() {
 	const [role, setRole] = useState("")
 	const [books, setBooks] = useState([])
 	const [categories, setCategories] = useState([])
+	const [cartItems, setCartItems] = useState([])
 
 	useEffect(() => {
 		const fetchBooks = async () => {
@@ -44,8 +45,35 @@ function App() {
 		}
 	}, [])
 
+	useEffect(() => {
+		const fetchCart = async () => {
+			try {
+				const response = await axios.get("https://springboot-e-commerce-project-sab4.onrender.com/cart/get", {
+					headers: {
+						Authorization: `Bearer ${localStorage.getItem("token")}`
+					}
+				})
+
+				const data = response.data
+				const books = data.map((item) => ({
+					isbn: item.book.isbn,
+					name: item.book.name,
+					price: item.book.price,
+					image: item.book.image,
+					quantity: item.quantity
+				}))
+
+				setCartItems(books)
+			} catch (error) {
+				console.error("Error fetching cart:", error)
+			}
+		}
+
+		fetchCart()
+	}, [])
+
 	return (
-		<CartProvider isLoggedIn={isLoggedIn}>
+		<CartProvider isLoggedIn={isLoggedIn} cartItems={cartItems} setCartItems={setCartItems}>
 			<Router>
 				<Navbar isLoggedIn={isLoggedIn} role={role} />
 				<Routes>
