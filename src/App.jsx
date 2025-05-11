@@ -69,34 +69,11 @@ function App() {
 	}, [role, roleLoaded])
 
 	useEffect(() => {
-		const fetchBooks = async () => {
-			try {
-				const endpoint =
-					role === "ROLE_ADMIN"
-						? "https://springboot-e-commerce-project-sab4.onrender.com/book/admin/get-all-book"
-						: "https://springboot-e-commerce-project-sab4.onrender.com/book/get-all-book"
-
-				const response = await axios.get(endpoint, {
-					headers: {
-						Authorization: `Bearer ${localStorage.getItem("token")}`
-					}
-				})
-
-				const data = response.data
-				setBooks(data)
-
-				const uniqueCategories = [...new Set(data.map((book) => book.category))]
-				setCategories(uniqueCategories)
-			} catch (error) {
-				console.error("Error fetching books:", error)
-			}
-		}
-
-		fetchBooks()
-	}, [role])
-
-	useEffect(() => {
 		const fetchCart = async () => {
+			if (!isLoggedIn) {
+				setCartItems([])
+				return
+			}
 			try {
 				const response = await axios.get("https://springboot-e-commerce-project-sab4.onrender.com/cart/get", {
 					headers: {
@@ -120,12 +97,12 @@ function App() {
 		}
 
 		fetchCart()
-	}, [])
+	}, [isLoggedIn])
 
 	return (
 		<CartProvider isLoggedIn={isLoggedIn} cartItems={cartItems} setCartItems={setCartItems}>
 			<Router>
-				<Navbar isLoggedIn={isLoggedIn} role={role} />
+				<Navbar isLoggedIn={isLoggedIn} role={role} cartItems={cartItems} />
 				<Routes>
 					<Route path="/" element={<ProductListing books={books} categories={categories} />} />
 					<Route path="/products/:id" element={<ProductDetail books={books} />} />

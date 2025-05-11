@@ -4,9 +4,7 @@ import { Link } from "react-router-dom"
 import { useContext } from "react"
 import { CartContext } from "../CartContext"
 
-const Navbar = ({ isLoggedIn, role }) => {
-	const { cartItems } = useContext(CartContext)
-
+const Navbar = ({ isLoggedIn, role, cartItems }) => {
 	return (
 		<nav className="navbar navbar-expand-xl navbar-light bg-light shadow-sm">
 			<div className="container">
