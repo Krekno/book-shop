@@ -33,6 +33,16 @@ const Profile = ({ setIsLoggedIn, setRole }) => {
 			})
 
 			if (response.status === 200) {
+				const loginResponse = await axios.post("https://springboot-e-commerce-project-sab4.onrender.com/auth/login", {
+					email: formData.email,
+					password: formData.password
+				})
+
+				if (loginResponse.status === 200) {
+					localStorage.setItem("token", loginResponse.data.token)
+					setIsLoggedIn(true)
+					setRole(loginResponse.data.role)
+				}
 				setFormData({ email: "", password: "" })
 				setMessage("Credentials updated successfully!")
 			} else {
