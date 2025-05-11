@@ -4,7 +4,7 @@ import { CartContext } from "../CartContext"
 import { useEffect, useState } from "react"
 import axios from "axios"
 
-const Cart = () => {
+const Cart = ({ setCartItems }) => {
 	const { cartItems, removeFromCart } = useContext(CartContext)
 
 	const total = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0)
@@ -21,6 +21,7 @@ const Cart = () => {
 				}
 			)
 			alert("Order successful! Thank you for your purchase.")
+			setCartItems([])
 		} catch (error) {
 			console.error("Error during order:", error)
 			alert("Order failed. Please try again.")

@@ -106,7 +106,7 @@ function App() {
 				<Routes>
 					<Route path="/" element={<ProductListing books={books} categories={categories} />} />
 					<Route path="/products/:id" element={<ProductDetail books={books} />} />
-					<Route path="/cart" element={<Cart />} />
+					<Route path="/cart" element={<Cart setCartItems={setCartItems} />} />
 					<Route path="/checkout" element={<Checkout />} />
 					<Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} setRole={setRole} />} />
 					<Route path="/profile" element={<Profile setIsLoggedIn={setIsLoggedIn} setRole={setRole} />}></Route>
