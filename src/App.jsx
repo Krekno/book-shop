@@ -19,23 +19,7 @@ function App() {
 	const [books, setBooks] = useState([])
 	const [categories, setCategories] = useState([])
 	const [cartItems, setCartItems] = useState([])
-
-	useEffect(() => {
-		const fetchBooks = async () => {
-			try {
-				const response = await axios.get("https://springboot-e-commerce-project-sab4.onrender.com/book/get-all-book")
-				const data = response.data
-				setBooks(data)
-
-				const uniqueCategories = [...new Set(data.map((book) => book.category))]
-				setCategories(uniqueCategories)
-			} catch (error) {
-				console.error("Error fetching books:", error)
-			}
-		}
-
-		fetchBooks()
-	}, [])
+	const [roleLoaded, setRoleLoaded] = useState(false)
 
 	useEffect(() => {
 		if (localStorage.getItem("token")) {
@@ -48,11 +32,68 @@ function App() {
 			} catch (error) {
 				console.error("Invalid token format:", error)
 				setIsLoggedIn(false)
-				setRole("") // or maybe redirect to login
-				localStorage.removeItem("token") // nuke it if it's bad
+				setRole("")
+				localStorage.removeItem("token")
 			}
 		}
+		setRoleLoaded(true)
 	}, [])
+
+	useEffect(() => {
+		const fetchBooks = async () => {
+			try {
+				const endpoint =
+					role === "ROLE_ADMIN"
+						? "https://springboot-e-commerce-project-sab4.onrender.com/book/admin/get-all-book"
+						: "https://springboot-e-commerce-project-sab4.onrender.com/book/get-all-book"
+
+				const response = await axios.get(endpoint, {
+					headers: {
+						Authorization: `Bearer ${localStorage.getItem("token")}`
+					}
+				})
+
+				const data = response.data
+				setBooks(data)
+
+				const uniqueCategories = [...new Set(data.map((book) => book.category))]
+				setCategories(uniqueCategories)
+			} catch (error) {
+				console.error("Error fetching books:", error)
+			}
+		}
+
+		if (roleLoaded) {
+			fetchBooks()
+		}
+	}, [role, roleLoaded])
+
+	useEffect(() => {
+		const fetchBooks = async () => {
+			try {
+				const endpoint =
+					role === "ROLE_ADMIN"
+						? "https://springboot-e-commerce-project-sab4.onrender.com/book/admin/get-all-book"
+						: "https://springboot-e-commerce-project-sab4.onrender.com/book/get-all-book"
+
+				const response = await axios.get(endpoint, {
+					headers: {
+						Authorization: `Bearer ${localStorage.getItem("token")}`
+					}
+				})
+
+				const data = response.data
+				setBooks(data)
+
+				const uniqueCategories = [...new Set(data.map((book) => book.category))]
+				setCategories(uniqueCategories)
+			} catch (error) {
+				console.error("Error fetching books:", error)
+			}
+		}
+
+		fetchBooks()
+	}, [role])
 
 	useEffect(() => {
 		const fetchCart = async () => {
